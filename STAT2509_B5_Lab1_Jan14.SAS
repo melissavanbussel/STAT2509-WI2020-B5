@@ -27,15 +27,15 @@ DATA Grades;
 	;
 RUN;
 
-/* Use REG procedure, save results in a variable called PAREMDATA */ 
+/* Use REG procedure, save results in a variable called MyResults */ 
 /* The CLB option computes (1-alpha)*100% confidence intervals for the parameter estimates */ 
-PROC REG DATA = work.Grades OUTEST = PAREMDATA; 
+PROC REG DATA = work.Grades OUTEST = MyResults; 
 	MODEL Y = X / CLB;
 RUN;
 
 /* Create a macro variable to store the regression equation, the variable is called "eqn" */
 DATA _NULL_;
-   SET PAREMDATA;
+   SET MyResults;
    CALL SYMPUT("eqn", "Grade on Test 2 = " ||Intercept|| " + " ||X|| " Grade on Test 1");
 RUN;
 /* We can use a PUT statement to see the regression equation, printed out to the log */
@@ -49,7 +49,10 @@ PROC SQL;
 	CREATE TABLE Add_New_Entries AS 
 		SELECT *
 		FROM Grades;
-	INSERT INTO Grades
+	INSERT INTO Add_New_Entries
 		VALUES (45,.)
 		VALUES (48,.);
 QUIT;
+
+FOOTNOTE;
+ODS PDF CLOSE;
