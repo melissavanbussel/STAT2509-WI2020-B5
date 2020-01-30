@@ -96,4 +96,4 @@ run;
 
 /* Everything that goes between the ods pdf file line and the line below will
 be included in the pdf output */
-ods pdf close
+ods pdf close;
